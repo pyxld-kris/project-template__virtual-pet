@@ -73,6 +73,7 @@ class PlayScene extends Phaser.Scene {
     const cursors = this.input.keyboard.createCursorKeys();
     camera.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
+    /*
     this.add
       .text(
         Math.floor(this.game.config.width / 2),
@@ -91,12 +92,13 @@ class PlayScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setResolution(3) // Makes text more crisp
       .setScale(0.5); // Makes text more crisp
-
+    */
+    /*
     new InstructionSequence(this, [
       new Instruction(this, "This is your new pet", 2000),
       new Instruction(this, "Code to care for it", 2000)
     ]);
-
+*/
     this.loadModifyCode();
   }
 
