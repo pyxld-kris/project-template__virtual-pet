@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Heart from "./Heart";
 
 export default class Animal extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -13,9 +14,9 @@ export default class Animal extends Phaser.Physics.Arcade.Sprite {
       .setCollideWorldBounds(true)
       .setInteractive()
       .setOrigin() // fixes interactive offset issue
-      .on("pointerdown", function(pointer, localX, localY, event) {
+      .on("pointerdown", (pointer, localX, localY, event) => {
         // Let's make something happen when we click on this animal
-        this.scene.physics.add.sprite(50, 10, "meat");
+        new Heart(this.scene, this.x, this.y);
       });
 
     // Create the animations we need from the pet spritesheet
@@ -36,20 +37,17 @@ export default class Animal extends Phaser.Physics.Arcade.Sprite {
     this.anims.play("pet-idle", true);
 
     // Make sure the scene calls this object's update function every frame
-    //scene.updateGroup.add(this);
-    //scene.sys.updateList.add(this);
-    this.updateListener = scene.events.on("update", (time, delta) => {
-      this.update(time, delta);
-    });
+    scene.events.on("update", this.update, this);
   }
 
   update(time, delta) {
+    // Small chance this animal may move left or right
     if (Math.random() < 0.04) {
       var leftOrRight = Math.random();
       if (leftOrRight < 0.5) {
-        this.setVelocity(150, 0);
+        this.setVelocity(150, -30);
       } else {
-        this.setVelocity(-150, 0);
+        this.setVelocity(-150, -30);
       }
     }
 
@@ -66,7 +64,7 @@ export default class Animal extends Phaser.Physics.Arcade.Sprite {
 
   destroy() {
     // Remove this object's update listener from the scene
-    this.scene.events.removeListener("update", this.updateListener);
+    this.scene.events.removeListener("update", this.update, this);
 
     // Call this object's parent class destroy method
     super.destroy();

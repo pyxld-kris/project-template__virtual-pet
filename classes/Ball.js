@@ -18,6 +18,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
       .setOrigin() // fixes interactive offset issue
       .on("pointerdown", function(pointer, localX, localY, event) {
         // Let's make something happen when we click on this animal
+        this.setVelocity(0, -200);
       });
 
     scene.physics.add.collider(scene.pet, this, () => {
@@ -33,7 +34,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
 
   destroy() {
     // Remove this object's update listener from the scene
-    //this.scene.events.removeListener("update", this.updateListener);
+    //this.scene.events.removeListener("update", this.update, this);
 
     // Call this object's parent class destroy method
     super.destroy();
